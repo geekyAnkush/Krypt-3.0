@@ -5,7 +5,8 @@ import { BsInfoCircle } from "react-icons/bs";
 import Tilt from "react-vanilla-tilt";
 
 import { Loader } from "./";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TransactionContext } from "../context/TransactionContext";
 const commonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
@@ -21,9 +22,21 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const Welcome = () => {
+  const {
+    connectWallet,
+    currentAccount,
+    formData,
+    handleChange,
+    sendTransaction,
+  } = useContext(TransactionContext);
   const [isLoading, setIsLoading] = useState(false);
-  const connectWallet = () => {};
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    const { addressTo, amount, keyword, message } = formData;
+    e.preventDefault();
+    if (!addressTo || !amount || !keyword || !message) return;
+
+    sendTransaction();
+  };
   return (
     <div className="flex w-full justify-center items-center">
       <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4 mf:mr-[20px]">
@@ -35,10 +48,15 @@ const Welcome = () => {
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             Krypto
           </p>
+
           <button
             className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
             type="button"
-            onClick={connectWallet}
+            onClick={
+              !currentAccount
+                ? connectWallet
+                : () => alert("Already Connected to a account")
+            }
           >
             <p className="text-white text-base font-semibold">Connect Wallet</p>
           </button>
@@ -90,25 +108,25 @@ const Welcome = () => {
               placeholder="Address To"
               name="addressTo"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
               placeholder="Amount (ETH)"
               name="amount"
               type="number"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
               placeholder="Keyword (Gif)"
               name="keyword"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
               placeholder="Enter Message"
               name="message"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
 
             <div className="h-[1px] w-full bg-gray-400 my-2" />
