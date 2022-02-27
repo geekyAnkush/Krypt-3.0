@@ -5,6 +5,7 @@ import { BsInfoCircle } from "react-icons/bs";
 import Tilt from "react-vanilla-tilt";
 
 import { Loader } from "./";
+import { shortenAddress } from "../utils/shortenAddress";
 import { useContext, useState } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 const commonStyles =
@@ -17,7 +18,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
     step="0.0001"
     value={value}
     onChange={(e) => handleChange(e, name)}
-    className="my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism"
+    className="w-full p-2 my-2 text-sm text-white bg-transparent border-none rounded-sm outline-none white-glassmorphism"
   />
 );
 
@@ -38,13 +39,13 @@ const Welcome = () => {
     sendTransaction();
   };
   return (
-    <div className="flex w-full justify-center items-center">
+    <div className="flex items-center justify-center w-full">
       <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4 mf:mr-[20px]">
-        <div className="flex flex-1 justify-start flex-col mf:mr-10">
-          <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
+        <div className="flex flex-col justify-start flex-1 mf:mr-10">
+          <h1 className="py-1 text-3xl text-white sm:text-5xl text-gradient">
             Send Crypto <br /> across the world
           </h1>
-          <p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
+          <p className="w-11/12 mt-5 text-base font-light text-left text-white md:w-9/12">
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             Krypto
           </p>
@@ -58,9 +59,9 @@ const Welcome = () => {
                 : () => alert("Already Connected to a account")
             }
           >
-            <p className="text-white text-base font-semibold">Connect Wallet</p>
+            <p className="text-base font-semibold text-white">Connect Wallet</p>
           </button>
-          <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
+          <div className="grid w-full grid-cols-2 mt-10 sm:grid-cols-3">
             <div className={`rounded-tl-2xl ${commonStyles}`}>Reliability</div>
             <div className={commonStyles}>Security</div>
             <div className={`rounded-tr-2xl ${commonStyles}`}>Ethereum</div>
@@ -84,18 +85,18 @@ const Welcome = () => {
             style={{ height: "0px !important" }}
           >
             <div className="flex p-3 justify-end items-start flex-col rounded-xl h-40 w-[300px] my-5 eth-card white-glassmorphism">
-              <div className="flex justify-between flex-col w-full h-full">
-                <div className="flex justify-between items-start">
-                  <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
+              <div className="flex flex-col justify-between w-full h-full">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center justify-center w-10 h-10 border-2 border-white rounded-full">
                     <SiEthereum fontSize={21} color="#fff" />
                   </div>
                   <BsInfoCircle fontSize={17} color="#fff" />
                 </div>
                 <div>
-                  <p className="text-sm text-white font-light">
-                    0xasdasgs....addaa
+                  <p className="text-sm font-light text-white">
+                    {shortenAddress(currentAccount)}
                   </p>
-                  <p className="text-lg mt-1 text-white font-semibold">
+                  <p className="mt-1 text-lg font-semibold text-white">
                     Ethereum
                   </p>
                 </div>
@@ -103,7 +104,7 @@ const Welcome = () => {
             </div>
           </Tilt>
 
-          <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
+          <div className="flex flex-col items-center justify-start w-full p-5 sm:w-96 blue-glassmorphism">
             <Input
               placeholder="Address To"
               name="addressTo"
